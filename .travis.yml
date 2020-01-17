@@ -1,5 +1,9 @@
 services:
 - docker
+env:
+    global:
+      - SHA=$(git rev-parse HEAD)
+      - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
 - openssl aes-256-cbc -K $encrypted_f355f2aa4e72_key -iv $encrypted_f355f2aa4e72_iv
   -in service-account.json.enc -out service-account.json -d
@@ -7,3 +11,18 @@ before_install:
 - source $HOME/google-cloud-sdk/path.bash.inc
 - gcloud components update kubectl
 - gcloud auth activate-service-account --key-file service-account.json
+- gcloud config set project complex-k8s-265300
+- gcloud config set compute/zone australia-southeast1-a
+- gcloud container clusters get-credentials complex-k8s-cluster
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker run -e CI=true peterboot/docker-react npm run test
+- docker build -t peterboot/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true peterboot/react-test npm run test
+
+deploy:
+    provider: script
+    script: bash ./deploy.sh
+    on:
+      branch: master
