@@ -1,4 +1,4 @@
-apiVersion: certmanager.k8s.io/v1alpha1
+apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
   name: ride-decentral-com-tls
@@ -18,4 +18,3 @@ spec:
         domains:
           - ridedecentral.com
           - www.ridedecentral.com
-          
