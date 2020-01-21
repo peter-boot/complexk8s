@@ -13,26 +13,26 @@ spec:
         - ridedecentral.com
         - www.ridedecentral.com
       secretName: ride-decentral-com
-    rules:
-      - host: ridedecentral.com
-        http:
-          paths:
-            - path: /?(.*)
-              backend:
-                serviceName: client-cluster-ip-service
-                servicePort: 3000
-            - path: /api/?(.*)
-              backend:
-                serviceName: server-cluster-ip-service
-                servicePort: 5000
-      - host: www.ridedecentral.com
-        http:
-          paths:
-            - path: /?(.*)
-              backend:
-                serviceName: client-cluster-ip-service
-                servicePort: 3000
-            - path: /api/?(.*)
-              backend:
-                serviceName: server-cluster-ip-service
-                servicePort: 5000
+  rules:
+    - host: ridedecentral.com
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: client-cluster-ip-service
+              servicePort: 3000
+          - path: /api/?(.*)
+            backend:
+              serviceName: server-cluster-ip-service
+              servicePort: 5000
+    - host: www.ridedecentral.com
+      http:
+        paths:
+          - path: /?(.*)
+            backend:
+              serviceName: client-cluster-ip-service
+              servicePort: 3000
+          - path: /api/?(.*)
+            backend:
+              serviceName: server-cluster-ip-service
+              servicePort: 5000
