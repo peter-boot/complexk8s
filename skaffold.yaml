@@ -1,34 +1,39 @@
-apiVersion: skaffold/v1beta2
+apiVersion: skaffold/v2alpha2
 kind: Config
+metadata:
+  name: complexk-s
 build:
-  local:
-    push: false
   artifacts:
-    - image: peterboot/multi-client
-      context: client
-      docker:
-        dockerfile: Dockerfile.dev
-      sync:
-        '**/*.js': .
-        '**/*.css': .
-        '**/*.html': .
-    - image: peterboot/multi-server
-      context: server
-      docker:
-        dockerfile: Dockerfile.dev
-      sync:
-        '**/*.js': .
-    - image: peterboot/multi-worker
-      context: worker
-      docker:
-        dockerfile: Dockerfile.dev
-      sync:
-        '**/*.js': .
+  - image: peterboot/multi-client
+    context: client
+    docker:
+      dockerfile: Dockerfile.dev
+    sync:
+      infer:
+        - '**/*.js'
+        - '**/*.css'
+        - '**/*.html'
+  - image: peterboot/multi-server
+    context: server
+    docker:
+      dockerfile: Dockerfile.dev
+  - image: peterboot/multi-worker
+    context: worker
+    docker:
+      dockerfile: Dockerfile.dev
 deploy:
   kubectl:
     manifests:
-      - k8s/client-deployment.yaml
-      - k8s/server-deployment.yaml
-      - k8s/worker-deployment.yaml
-      - k8s/server-cluster-ip-service.yaml
-      - k8s/client-cluster-ip-service.yaml
+    - k8s/certificate.yaml
+    - k8s/client-cluster-ip-service.yaml
+    - k8s/client-deployment.yaml
+    - k8s/database-persistent-volume-claim.yaml
+    - k8s/ingress-service.yaml
+    - k8s/issuer.yaml
+    - k8s/postgres-cluster-ip-service.yaml
+    - k8s/postgres-deployment.yaml
+    - k8s/redis-cluster-ip-service.yaml
+    - k8s/redis-deployment.yaml
+    - k8s/server-cluster-ip-service.yaml
+    - k8s/server-deployment.yaml
+    - k8s/worker-deployment.yaml
