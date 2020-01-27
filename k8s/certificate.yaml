@@ -1,7 +1,7 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
-  name: ride-decentral-com-tls
+  name: ride-decentral-com-tls3
 spec:
   secretName: ride-decentral-com
   issuerRef:
