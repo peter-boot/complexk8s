@@ -17,6 +17,9 @@ build:
     context: server
     docker:
       dockerfile: Dockerfile.dev
+    sync:
+      infer:
+        - '**/*.js'
   - image: peterboot/multi-worker
     context: worker
     docker:
